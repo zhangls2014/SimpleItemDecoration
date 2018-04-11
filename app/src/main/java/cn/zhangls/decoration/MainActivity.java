@@ -2,6 +2,7 @@ package cn.zhangls.decoration;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DividerItemDecoration dividerDecoration;
     private GridDividerItemDecoration gridDecoration;
-    private RadioButton linear;
-    private RadioButton grid;
 
 
     @Override
@@ -43,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
         gridDecoration = new GridDividerItemDecoration(drawable, drawable2, 32, 32, 4);
         linearLayoutManager = new LinearLayoutManager(this);
         gridLayoutManager = new GridLayoutManager(this, 4);
-
-        linear = findViewById(R.id.rbLinear);
-        grid = findViewById(R.id.rbGrid);
-
 
         RadioGroup radioGroup = findViewById(R.id.rgLayout);
         radioGroup.setOnCheckedChangeListener((radioGroup1, i) -> {
@@ -69,14 +63,15 @@ public class MainActivity extends AppCompatActivity {
 
     private class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             final View view = getLayoutInflater().inflate(android.R.layout.simple_list_item_1, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.text.setText("Item " + position);
         }
 
