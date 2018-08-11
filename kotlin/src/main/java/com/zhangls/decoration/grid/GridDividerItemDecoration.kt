@@ -5,6 +5,9 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import android.R.attr.rowCount
+
+
 
 /**
  * Adds interior dividers to a RecyclerView with a GridLayoutManager.
@@ -94,8 +97,8 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration {
         // 添加纵向偏移量
         // item 的列号
         val row = index % mNumColumns
-        if (row != mNumColumns - 1) {
-            outRect.right = mVerticalDivider!!.intrinsicWidth
+        if (row != 0) {
+            outRect.left = mVerticalDivider!!.intrinsicWidth
         }
 
         // 添加横向偏移量

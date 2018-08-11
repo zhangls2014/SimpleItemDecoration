@@ -101,8 +101,8 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
     // item 的列号
     int row = (index) % mNumColumns;
 
-    if (row != mNumColumns - 1) {
-      outRect.right = mVerticalDivider.getIntrinsicWidth();
+    if (row != 0) {
+      outRect.left = mVerticalDivider.getIntrinsicWidth();
     }
 
     // 添加横向偏移量

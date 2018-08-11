@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val drawable2 = ContextCompat.getDrawable(this, R.drawable.divider_2)
 
         dividerDecoration = DividerItemDecoration(drawable!!, 32)
-        gridDecoration = GridDividerItemDecoration(drawable, drawable2!!, 24, 24, 4)
+        gridDecoration = GridDividerItemDecoration(drawable, drawable2!!, 4)
         linearLayoutManager = LinearLayoutManager(this)
         gridLayoutManager = GridLayoutManager(this, 4)
 
@@ -66,12 +66,10 @@ class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.text.text = "Item $position"
-            holder.text.setBackgroundColor(
-                    ContextCompat.getColor(this@MainActivity, R.color.colorAccent))
         }
 
         override fun getItemCount(): Int {
-            return 45
+            return 49
         }
     }
 
