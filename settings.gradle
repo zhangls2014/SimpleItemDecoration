@@ -1,1 +1,1 @@
-include ':app', ':SimpleItemDecoration'
+include ':app', ':java', ':kotlin'

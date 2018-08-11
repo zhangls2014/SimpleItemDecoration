@@ -3,9 +3,11 @@ package cn.zhangls.decoration.linear;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Adds an offset to the start of a RecyclerView using a LinearLayoutManager or
@@ -62,20 +64,24 @@ public class StartOffsetItemDecoration extends RecyclerView.ItemDecoration {
    * @param state   The current RecyclerView.State of the RecyclerView
    */
   @Override
-  public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+  public void getItemOffsets(@NonNull Rect outRect, @NonNull View view,
+                             @NonNull RecyclerView parent,
+                             @NonNull RecyclerView.State state) {
     super.getItemOffsets(outRect, view, parent, state);
     if (parent.getChildAdapterPosition(view) > 0) {
       return;
     }
 
-    mOrientation = ((LinearLayoutManager) parent.getLayoutManager()).getOrientation();
-    if (mOrientation == LinearLayoutManager.HORIZONTAL) {
-      if (mOffsetDrawable != null) {
-        outRect.left = mOffsetDrawable.getIntrinsicWidth();
-      }
-    } else if (mOrientation == LinearLayoutManager.VERTICAL) {
-      if (mOffsetDrawable != null) {
-        outRect.top = mOffsetDrawable.getIntrinsicHeight();
+    if (parent.getLayoutManager() instanceof LinearLayoutManager) {
+      mOrientation = ((LinearLayoutManager) parent.getLayoutManager()).getOrientation();
+      if (mOrientation == LinearLayoutManager.HORIZONTAL) {
+        if (mOffsetDrawable != null) {
+          outRect.left = mOffsetDrawable.getIntrinsicWidth();
+        }
+      } else if (mOrientation == LinearLayoutManager.VERTICAL) {
+        if (mOffsetDrawable != null) {
+          outRect.top = mOffsetDrawable.getIntrinsicHeight();
+        }
       }
     }
   }
@@ -89,7 +95,8 @@ public class StartOffsetItemDecoration extends RecyclerView.ItemDecoration {
    * @param state  The current RecyclerView.State of the RecyclerView
    */
   @Override
-  public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+  public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent,
+                     @NonNull RecyclerView.State state) {
     super.onDraw(c, parent, state);
     if (mOffsetDrawable == null) {
       return;
