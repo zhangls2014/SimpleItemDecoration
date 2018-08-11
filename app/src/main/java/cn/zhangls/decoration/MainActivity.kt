@@ -66,10 +66,12 @@ class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.text.text = "Item $position"
+            holder.text.setBackgroundColor(
+                    ContextCompat.getColor(this@MainActivity, R.color.colorAccent))
         }
 
         override fun getItemCount(): Int {
-            return 20
+            return 50
         }
     }
 

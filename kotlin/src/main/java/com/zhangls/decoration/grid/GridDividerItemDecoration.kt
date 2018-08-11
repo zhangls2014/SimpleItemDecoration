@@ -115,7 +115,7 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration {
 
         val overNum: Int
         overNum = if (numChildrenOnLastRow == 0) {
-            3
+            mNumColumns
         } else {
             numChildrenOnLastRow
         }

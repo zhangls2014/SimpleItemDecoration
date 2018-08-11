@@ -123,7 +123,7 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     int overNum;
     if (numChildrenOnLastRow == 0) {
-      overNum = 3;
+      overNum = mNumColumns;
     } else {
       overNum = numChildrenOnLastRow;
     }
