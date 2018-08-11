@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val drawable2 = ContextCompat.getDrawable(this, R.drawable.divider_2)
 
         dividerDecoration = DividerItemDecoration(drawable!!, 32)
-        gridDecoration = GridDividerItemDecoration(drawable, drawable2!!, 0, 24, 4)
+        gridDecoration = GridDividerItemDecoration(drawable, drawable2!!, 24, 24, 4)
         linearLayoutManager = LinearLayoutManager(this)
         gridLayoutManager = GridLayoutManager(this, 4)
 
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return 50
+            return 45
         }
     }
 

@@ -89,17 +89,21 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration {
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
         // item 的 Position
-        val index = parent.getChildAdapterPosition(view) % mNumColumns
+        val index = parent.getChildAdapterPosition(view)
+
+        // 添加纵向偏移量
         // item 的列号
-        val column = index % mNumColumns
+        val row = index % mNumColumns
+        if (row != mNumColumns - 1) {
+            outRect.right = mVerticalDivider!!.intrinsicWidth
+        }
 
-        outRect.left = column * mHorizontalDivider!!.intrinsicWidth / mNumColumns
-        outRect.right = mHorizontalDivider!!.intrinsicWidth - (column + 1) * mHorizontalDivider!!.intrinsicWidth / mNumColumns
-
+        // 添加横向偏移量
         // item 的行号
-        val row = index / mNumColumns
-        outRect.top = row * mHorizontalDivider!!.intrinsicHeight / mNumColumns
-        outRect.bottom = mHorizontalDivider!!.intrinsicHeight - (row + 1) * mHorizontalDivider!!.intrinsicHeight / mNumColumns
+        val column = index / mNumColumns
+        if (column > 0) {
+            outRect.top = mHorizontalDivider!!.intrinsicHeight
+        }
     }
 
     /**

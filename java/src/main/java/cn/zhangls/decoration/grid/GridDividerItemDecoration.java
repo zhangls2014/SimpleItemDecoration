@@ -95,19 +95,22 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
                              @NonNull RecyclerView.State state) {
     super.getItemOffsets(outRect, view, parent, state);
     // item 的 Position
-    int index = parent.getChildAdapterPosition(view) % mNumColumns;
+    int index = parent.getChildAdapterPosition(view);
+
+    // 添加纵向偏移量
     // item 的列号
-    int column = (index) % mNumColumns;
+    int row = (index) % mNumColumns;
 
-    outRect.left = column * mHorizontalDivider.getIntrinsicWidth() / mNumColumns;
-    outRect.right = mHorizontalDivider.getIntrinsicWidth()
-        - (column + 1) * mHorizontalDivider.getIntrinsicWidth() / mNumColumns;
+    if (row != mNumColumns - 1) {
+      outRect.right = mVerticalDivider.getIntrinsicWidth();
+    }
 
+    // 添加横向偏移量
     // item 的行号
-    int row = index / mNumColumns;
-    outRect.top = row * mHorizontalDivider.getIntrinsicHeight() / mNumColumns;
-    outRect.bottom = mHorizontalDivider.getIntrinsicHeight()
-        - (row + 1) * mHorizontalDivider.getIntrinsicHeight() / mNumColumns;
+    int column = index / mNumColumns;
+    if (column > 0) {
+      outRect.top = mHorizontalDivider.getIntrinsicHeight();
+    }
   }
 
   /**

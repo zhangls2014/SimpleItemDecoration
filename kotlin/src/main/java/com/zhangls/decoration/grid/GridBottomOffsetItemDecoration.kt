@@ -59,7 +59,8 @@ class GridBottomOffsetItemDecoration : RecyclerView.ItemDecoration {
         val childCount = state.itemCount
         val lastRowChildCount = getLastRowChildCount(childCount)
 
-        val childIsInBottomRow = parent.getChildAdapterPosition(view) >= childCount - lastRowChildCount
+        val childIsInBottomRow = parent.getChildAdapterPosition(view) >=
+                childCount - lastRowChildCount
         if (childIsInBottomRow) {
             outRect.bottom = mOffsetDrawable!!.intrinsicHeight
         }
