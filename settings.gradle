@@ -1,1 +1,1 @@
-include ':app', ':java', ':kotlin'
+include ':app', ':kotlin'

@@ -21,38 +21,8 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author zhangls
  */
-class StartOffsetItemDecoration : RecyclerView.ItemDecoration {
-
-    private var mOffsetDrawable: Drawable? = null
-    private var mOrientation: Int = 0
-    /**
-     * 边距
-     */
-    private var mMargin: Int = 0
-
-    /**
-     * Constructor that takes in a [Drawable] to be drawn at the start of
-     * the RecyclerView.
-     *
-     * @param offsetDrawable The `Drawable` to be added to the start of
-     * the RecyclerView
-     */
-    constructor(offsetDrawable: Drawable) {
-        mOffsetDrawable = offsetDrawable
-    }
-
-    /**
-     * Constructor that takes in a [Drawable] to be drawn at the start of
-     * the RecyclerView.
-     *
-     * @param offsetDrawable The `Drawable` to be added to the start of
-     * the RecyclerView
-     * @param margin         边距
-     */
-    constructor(offsetDrawable: Drawable, margin: Int) {
-        mOffsetDrawable = offsetDrawable
-        mMargin = margin
-    }
+class StartOffsetItemDecoration(private val divider: Drawable, private val margin: Int = 0) : RecyclerView.ItemDecoration() {
+    private var orientation: Int = LinearLayoutManager.HORIZONTAL
 
     /**
      * Determines the size and location of the offset to be added to the start
@@ -69,15 +39,17 @@ class StartOffsetItemDecoration : RecyclerView.ItemDecoration {
             return
         }
 
-        mOrientation = (parent.layoutManager as LinearLayoutManager).orientation
-        if (mOrientation == LinearLayoutManager.HORIZONTAL) {
-            if (mOffsetDrawable != null) {
-                outRect.left = mOffsetDrawable!!.intrinsicWidth
-            }
-        } else if (mOrientation == LinearLayoutManager.VERTICAL) {
-            if (mOffsetDrawable != null) {
-                outRect.top = mOffsetDrawable!!.intrinsicHeight
-            }
+        if (parent.layoutManager is LinearLayoutManager) {
+            val linearLayoutManager = parent.layoutManager as LinearLayoutManager
+            orientation = linearLayoutManager.orientation
+        } else {
+            throw UnsupportedOperationException("StartOffsetItemDecoration 只适用于LinearLayoutManager")
+        }
+
+        if (orientation == LinearLayoutManager.HORIZONTAL) {
+            outRect.left = divider.intrinsicWidth
+        } else if (orientation == LinearLayoutManager.VERTICAL) {
+            outRect.top = divider.intrinsicHeight
         }
     }
 
@@ -90,36 +62,31 @@ class StartOffsetItemDecoration : RecyclerView.ItemDecoration {
      * @param state  The current RecyclerView.State of the RecyclerView
      */
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        super.onDraw(c, parent, state)
-        if (mOffsetDrawable == null) {
-            return
-        }
-
-        if (mOrientation == LinearLayoutManager.HORIZONTAL) {
+        if (orientation == LinearLayoutManager.HORIZONTAL) {
             drawOffsetHorizontal(c, parent)
-        } else if (mOrientation == LinearLayoutManager.VERTICAL) {
+        } else if (orientation == LinearLayoutManager.VERTICAL) {
             drawOffsetVertical(c, parent)
         }
     }
 
 
     private fun drawOffsetHorizontal(canvas: Canvas, parent: RecyclerView) {
-        val parentTop = parent.paddingTop + mMargin
-        val parentBottom = parent.height - parent.paddingBottom - mMargin
+        val parentTop = parent.paddingTop + margin
+        val parentBottom = parent.height - parent.paddingBottom - margin
         val parentLeft = parent.paddingLeft
-        val offsetDrawableRight = parentLeft + mOffsetDrawable!!.intrinsicWidth
+        val offsetDrawableRight = parentLeft + divider.intrinsicWidth
 
-        mOffsetDrawable!!.setBounds(parentLeft, parentTop, offsetDrawableRight, parentBottom)
-        mOffsetDrawable!!.draw(canvas)
+        divider.setBounds(parentLeft, parentTop, offsetDrawableRight, parentBottom)
+        divider.draw(canvas)
     }
 
     private fun drawOffsetVertical(canvas: Canvas, parent: RecyclerView) {
-        val parentLeft = parent.paddingLeft + mMargin
-        val parentRight = parent.width - parent.paddingRight - mMargin
+        val parentLeft = parent.paddingLeft + margin
+        val parentRight = parent.width - parent.paddingRight - margin
         val parentTop = parent.paddingTop
-        val offsetDrawableBottom = parentTop + mOffsetDrawable!!.intrinsicHeight
+        val offsetDrawableBottom = parentTop + divider.intrinsicHeight
 
-        mOffsetDrawable!!.setBounds(parentLeft, parentTop, parentRight, offsetDrawableBottom)
-        mOffsetDrawable!!.draw(canvas)
+        divider.setBounds(parentLeft, parentTop, parentRight, offsetDrawableBottom)
+        divider.draw(canvas)
     }
 }

@@ -16,51 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author zhangls
  */
-class DividerItemDecoration : RecyclerView.ItemDecoration {
-
-    private var mDivider: Drawable? = null
-    private var mOrientation: Int = 0
-    /**
-     * 边距
-     */
-    private var mMargin: Int = 0
-
-    /**
-     * Sole constructor. Takes in a [Drawable] to be used as the interior
-     * divider.
-     *
-     * @param divider A divider `Drawable` to be drawn on the RecyclerView
-     */
-    constructor(divider: Drawable) {
-        mDivider = divider
-    }
-
-    /**
-     * Sole constructor. Takes in a [Drawable] to be used as the interior
-     * divider.
-     *
-     * @param divider A divider `Drawable` to be drawn on the RecyclerView
-     * @param margin  边距
-     */
-    constructor(divider: Drawable, margin: Int) {
-        mDivider = divider
-        mMargin = margin
-    }
-
-    /**
-     * Draws horizontal or vertical dividers onto the parent RecyclerView.
-     *
-     * @param canvas The [Canvas] onto which dividers will be drawn
-     * @param parent The RecyclerView onto which dividers are being added
-     * @param state  The current RecyclerView.State of the RecyclerView
-     */
-    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        if (mOrientation == LinearLayoutManager.HORIZONTAL) {
-            drawHorizontalDividers(canvas, parent)
-        } else if (mOrientation == LinearLayoutManager.VERTICAL) {
-            drawVerticalDividers(canvas, parent)
-        }
-    }
+class DividerItemDecoration(private val divider: Drawable, private val margin: Int = 0) : RecyclerView.ItemDecoration() {
+    private var orientation: Int = LinearLayoutManager.HORIZONTAL
 
     /**
      * Determines the size and location of offsets between items in the parent
@@ -79,11 +36,32 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
             return
         }
 
-        mOrientation = (parent.layoutManager as LinearLayoutManager).orientation
-        if (mOrientation == LinearLayoutManager.HORIZONTAL) {
-            outRect.left = mDivider!!.intrinsicWidth
-        } else if (mOrientation == LinearLayoutManager.VERTICAL) {
-            outRect.top = mDivider!!.intrinsicHeight
+        if (parent.layoutManager is LinearLayoutManager) {
+            val linearLayoutManager = parent.layoutManager as LinearLayoutManager
+            orientation = linearLayoutManager.orientation
+        } else {
+            throw UnsupportedOperationException("DividerItemDecoration 只适用于LinearLayoutManager")
+        }
+
+        if (orientation == LinearLayoutManager.HORIZONTAL) {
+            outRect.left = divider.intrinsicWidth
+        } else if (orientation == LinearLayoutManager.VERTICAL) {
+            outRect.top = divider.intrinsicHeight
+        }
+    }
+
+    /**
+     * Draws horizontal or vertical dividers onto the parent RecyclerView.
+     *
+     * @param canvas The [Canvas] onto which dividers will be drawn
+     * @param parent The RecyclerView onto which dividers are being added
+     * @param state  The current RecyclerView.State of the RecyclerView
+     */
+    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        if (orientation == LinearLayoutManager.HORIZONTAL) {
+            drawHorizontalDividers(canvas, parent)
+        } else if (orientation == LinearLayoutManager.VERTICAL) {
+            drawVerticalDividers(canvas, parent)
         }
     }
 
@@ -97,8 +75,8 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
      * added
      */
     private fun drawHorizontalDividers(canvas: Canvas, parent: RecyclerView) {
-        val parentTop = parent.paddingTop + mMargin
-        val parentBottom = parent.height - parent.paddingBottom - mMargin
+        val parentTop = parent.paddingTop + margin
+        val parentBottom = parent.height - parent.paddingBottom - margin
 
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {
@@ -107,10 +85,10 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
             val params = child.layoutParams as RecyclerView.LayoutParams
 
             val parentLeft = child.right + params.rightMargin
-            val parentRight = parentLeft + mDivider!!.intrinsicWidth
+            val parentRight = parentLeft + divider.intrinsicWidth
 
-            mDivider!!.setBounds(parentLeft, parentTop, parentRight, parentBottom)
-            mDivider!!.draw(canvas)
+            divider.setBounds(parentLeft, parentTop, parentRight, parentBottom)
+            divider.draw(canvas)
         }
     }
 
@@ -124,8 +102,8 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
      * added
      */
     private fun drawVerticalDividers(canvas: Canvas, parent: RecyclerView) {
-        val parentLeft = parent.paddingLeft + mMargin
-        val parentRight = parent.width - parent.paddingRight - mMargin
+        val parentLeft = parent.paddingLeft + margin
+        val parentRight = parent.width - parent.paddingRight - margin
 
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {
@@ -134,10 +112,10 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
             val params = child.layoutParams as RecyclerView.LayoutParams
 
             val parentTop = child.bottom + params.bottomMargin
-            val parentBottom = parentTop + mDivider!!.intrinsicHeight
+            val parentBottom = parentTop + divider.intrinsicHeight
 
-            mDivider!!.setBounds(parentLeft, parentTop, parentRight, parentBottom)
-            mDivider!!.draw(canvas)
+            divider.setBounds(parentLeft, parentTop, parentRight, parentBottom)
+            divider.draw(canvas)
         }
     }
 }

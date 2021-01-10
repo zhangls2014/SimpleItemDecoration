@@ -3,22 +3,20 @@
 buildscript {
     ext {
         // android
-        compileSdkVersion = 28
+        compileSdkVersion = 30
         minSdkVersion = 21
-        targetSdkVersion = 28
-        kotlinVersion = '1.2.60'
+        targetSdkVersion = 30
+        kotlinVersion = '1.4.21'
 
         // support
-        appcompatVersion = '1.0.0-beta01'
-        legacySupportV4Version = '1.0.0-beta01'
-        materialVersion = '1.0.0-beta01'
-        recyclerViewVersion = '1.0.0-rc01'
-        constraintLayoutVersion = '1.1.2'
+        appcompatVersion = '1.3.0-alpha02'
+        recyclerViewVersion = '1.2.0-beta01'
+        constraintLayoutVersion = '2.0.4'
 
         // test
-        testJunitVersion = '4.12'
-        testRunnerVersion = '1.1.0-alpha4'
-        testEspressoCoreVersion = '3.1.0-alpha4'
+        testJunitVersion = '4.13.1'
+        testRunnerVersion = '1.3.1-alpha02'
+        testEspressoCoreVersion = '3.4.0-alpha02'
     }
 
     repositories {
@@ -26,7 +24,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha05'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
